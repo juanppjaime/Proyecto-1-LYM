@@ -149,18 +149,7 @@ String object;
 |<MOVE> ":" var1=varOrNum()"," var2=0{world.setPostion(var1,var2); word = "Command: move";}
 |<TURN> ":" (<NORTH>|<SOUTH>|<EAST>|<WEST>){world.turnRight(); word = "Command: turn" ;}
 |<FACE> ":" dir=(<NORTH>|<SOUTH>|<EAST>|<WEST>){
-	if (dir="north"){
-		facingNorth(); word="Command: face";
-	}
-	if (dir="south"){
-		facingSouth(); word="Command: face";
-	}
-	if (dir="east"){
-		facingEast(); word="Command: face";
-	}
-	if (dir="west"){
-		facingWest(); word="Command: face";
-	}
+	facing(dir); word="Command: face";
 }
 
 |<PUT>":" var= varOrNum()","objeto=(<Balloons>|<Chips>){
@@ -187,7 +176,10 @@ String object;
 		}
 	}
 }
-|<MOVEINDIR>":"var= varOrNum()","(<north>|<south>|<west>|<east>){word= "Command: moveInDir"}
+|<MOVEINDIR>":"var= varOrNum()","dir=(<north>|<south>|<west>|<east>){
+	facing(dir);world.;word= "Command: moveInDir";
+}
+
 |<JUMPTOTHE>":"var= varOrNum()","(<front>|<right>|<left>|<back>){word= "Command: jumpToThe"}
 |<JUMPINDIR>":"var= varOrNum()","(<north>|<south>|<west>|<east>){word= "Command: jumpInDir"}
 |<NOP>":"
@@ -223,6 +215,21 @@ return total}
 
 }
 
+void facing(dir){
+	if (dir="north"){
+		world.facingNorth(); word="Command: face";
+	}
+	if (dir="south"){
+		world.facingSouth(); word="Command: face";
+	}
+	if (dir="east"){
+		world.facingEast(); word="Command: face";
+	}
+	if (dir="west"){
+		world.facingWest(); word="Command: face";
+	}
+
+}
 
 /**
  * Unsigned decimal number
