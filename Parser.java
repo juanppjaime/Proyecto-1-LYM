@@ -131,6 +131,7 @@ int var1;
 int var2;
 String dir;
 String word;
+String object;
 }
 {
 (
@@ -141,18 +142,54 @@ String word;
 }
 	if (instrucciones !=null){
 		instrucciones.add("goto")
-		instrucciones.add(Integer.toString(var));
-		isntrucicones.add(Integer.toString(var2))
+		instrucciones.add(Integer.toString(var1));
+		instrucicones.add(Integer.toString(var2))
 	}
 }
 |<MOVE> ":" var1=varOrNum()"," var2=0{world.setPostion(var1,var2); word = "Command: move";}
 |<TURN> ":" (<NORTH>|<SOUTH>|<EAST>|<WEST>){world.turnRight(); word = "Command: turn" ;}
-|<FACE> ":" dir=(<NORTH>|<SOUTH>|<EAST>|<WEST>){this.facing=dir; word = "Command: turn" ;}
-|<PUT>":" var= varOrNum()","(<Balloons>|<Chips>){word= "Command: put"}
-|<PICK>":" var= varOrNum()","(<Balloons>|<Chips>){word= "Command: pick"}
+|<FACE> ":" dir=(<NORTH>|<SOUTH>|<EAST>|<WEST>){
+	if (dir="north"){
+		facingNorth(); word="Command: face";
+	}
+	if (dir="south"){
+		facingSouth(); word="Command: face";
+	}
+	if (dir="east"){
+		facingEast(); word="Command: face";
+	}
+	if (dir="west"){
+		facingWest(); word="Command: face";
+	}
+}
+
+|<PUT>":" var= varOrNum()","objeto=(<Balloons>|<Chips>){
+	if (objeto=="Balloons"){
+		for (i==0; i<var;i++){
+			world.putBalloon(); word= "Command= put balloon";
+	}
+}
+	if (objeto== "Chips"){
+		for (i==0,i<var,i++){
+			world.putChip(); word="Command= put chip";
+		}
+	}
+}
+|<PICK>":" var= varOrNum()","(<Balloons>|<Chips>){
+	if (objeto=="Balloons"){
+		for (i==0; i<var;i++){
+			world.pickupBalloon(); word= "Command= pick balloon";
+	}
+}
+	if (objeto== "Chips"){
+		for (i==0,i<var,i++){
+			world.pickupChip(); word="Command= pick chip";
+		}
+	}
+}
 |<MOVEINDIR>":"var= varOrNum()","(<north>|<south>|<west>|<east>){word= "Command: moveInDir"}
 |<JUMPTOTHE>":"var= varOrNum()","(<front>|<right>|<left>|<back>){word= "Command: jumpToThe"}
-|<JUMPINDIR>":"var= varOrNum()","(<Balloons>|<Chips>){word= "Command: jumpInDir"}
+|<JUMPINDIR>":"var= varOrNum()","(<north>|<south>|<west>|<east>){word= "Command: jumpInDir"}
 |<NOP>":"
 
 )
