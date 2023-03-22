@@ -209,9 +209,45 @@ String object;
 	}	
 }
 
-|<JUMPTOTHE>":"var= varOrNum()","(<front>|<right>|<left>|<back>){word= "Command: jumpToThe"}
+|<JUMPTOTHE>":"var= varOrNum()","dir=(<front>|<right>|<left>|<back>){
+	position= world.getPosition();
+	if (dir=="front"){
+		position[1]-=var
+		world.setPostion(position);word="Command: jumpToThe";
+	}
+	if (dir=="back"){
+		position[1]+=var
+		world.setPostion(position);word="Command: jumpToThe";
+	}
+	if (dir=="right"){
+		position[0]+=var
+		world.setPostion(position);word="Command: jumpToThe";
+	}
+	if (dir=="front"){
+		position[0]-=var
+		world.setPostion(position);word="Command: jumpToThe";
+	}
+}
 
-|<JUMPINDIR>":"var= varOrNum()","(<north>|<south>|<west>|<east>){word= "Command: jumpInDir"}
+|<JUMPINDIR>":"var= varOrNum()","dir=(<north>|<south>|<west>|<east>){
+	facing(dir);word="Command: face";
+	for (i==0,i<var1,i++){
+		if (getFacing()=="north"){
+			world.up();word="Command: move";
+		}
+		if (getFacing()=="south"){
+			world.down;word="Command: move;"
+		}
+		if (getFacing()=="east"){
+			world.right();word="Command: move";
+		}
+		if (getFacing()=="west"){
+			world.left(),word="Command: move";
+		}
+	}	
+
+	}
+
 |<NOP>":"{word="Command: nop"}
 
 )
