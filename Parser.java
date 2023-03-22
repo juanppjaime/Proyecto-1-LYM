@@ -146,7 +146,22 @@ String object;
 		instrucicones.add(Integer.toString(var2))
 	}
 }
-|<MOVE> ":" var1=varOrNum()"," var2=0{world.setPostion(var1,var2); word = "Command: move";}
+|<MOVE> ":" var1=varOrNum(){
+	for (i==0,i<var1,i++){
+	if (getFacing()=="north"){
+		world.up();word="Command: move";
+	}
+	if (getFacing()=="south"){
+		world.down;word="Command: move;"
+	}
+	if (getFacing()=="east"){
+		world.right();word="Command: move";
+	}
+	if (getFacing()=="west"){
+		world.left(),word="Command: move";
+	}
+}	
+}
 |<TURN> ":" (<NORTH>|<SOUTH>|<EAST>|<WEST>){world.turnRight(); word = "Command: turn" ;}
 |<FACE> ":" dir=(<NORTH>|<SOUTH>|<EAST>|<WEST>){
 	facing(dir); word="Command: face";
@@ -177,12 +192,27 @@ String object;
 	}
 }
 |<MOVEINDIR>":"var= varOrNum()","dir=(<north>|<south>|<west>|<east>){
-	facing(dir);world.;word= "Command: moveInDir";
+	facing(dir);world.;
+	for (i==0,i<var1,i++){
+		if (dir()=="north"){
+			world.up();word="Command: moveInDir";
+		}
+		if (dir()=="south"){
+			world.down;word="Command: moveInDir;"
+		}
+		if (dir()=="east"){
+			world.right();word="Command: moveInDir";
+		}
+		if (dir()=="west"){
+			world.left(),word="Command: moveInDir";
+		}
+	}	
 }
 
 |<JUMPTOTHE>":"var= varOrNum()","(<front>|<right>|<left>|<back>){word= "Command: jumpToThe"}
+
 |<JUMPINDIR>":"var= varOrNum()","(<north>|<south>|<west>|<east>){word= "Command: jumpInDir"}
-|<NOP>":"
+|<NOP>":"{word="Command: nop"}
 
 )
 }
